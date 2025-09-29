@@ -1,6 +1,6 @@
 """
 Be sure you have minitorch installed in you Virtual Env.
->>> pip install -Ue .
+# >>> pip install -Ue .
 """
 
 import minitorch
@@ -39,8 +39,8 @@ class Linear(minitorch.Module):
         # ASSIGN2.5
         batch, in_size = x.shape
         return (
-            self.weights.value.view(1, in_size, self.out_size)
-            * x.view(batch, in_size, 1)
+                self.weights.value.view(1, in_size, self.out_size)
+                * x.view(batch, in_size, 1)
         ).sum(1).view(batch, self.out_size) + self.bias.value.view(self.out_size)
         # END ASSIGN2.5
 
@@ -96,8 +96,15 @@ class TensorTrain:
 
 
 if __name__ == "__main__":
+    import time
+
+    tic = time.time()
+
     PTS = 50
-    HIDDEN = 2
+    HIDDEN = 5
     RATE = 0.5
-    data = minitorch.datasets["Simple"](PTS)
-    TensorTrain(HIDDEN).train(data, RATE)
+    data = minitorch.datasets["Xor"](PTS)
+    tt = TensorTrain(HIDDEN)
+    tt.train(data, RATE)
+
+    print(f"Time per epoch: {(time.time() - tic) / tt.max_epochs} s")
